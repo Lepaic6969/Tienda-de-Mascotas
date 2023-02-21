@@ -1,0 +1,21 @@
+body{
+    background-image: url("./assets/img/Fondo.jpg");
+    background-position: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: rgb(212,229,243);
+}
+
+.container-login{
+    background-color: rgb(230,197,140);
+    opacity: 0.8;
+}
+.w-50-responsive{
+    width: 50% !important;
+}
+
+@media(max-width:700px){
+    .w-50-responsive{
+        width: 90% !important;
+    }
+}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Mascotas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="shortcut icon" href="./assets/img/logo.png" type="image/x-icon">
+    <!--Íconos de bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
+</head>
+<body>
+    
+  <section id="app">
+    <!-- Login -->
+    <div class="container w-50-responsive mt-5 border p-md-5 rounded container-login" v-if="!successfullLogin">
+        <form @submit.prevent="login">
+            <div class="mb-3">
+                <img src="./assets/img/casa-de-mascotas.png" alt="login-icon" class="img-fluid w-25 mx-auto d-block">
+                <h2 class="text-center">Iniciar Sesión</h2>
+            </div>
+          <div class="mb-3">
+            <label for="username" class="form-label fw-bold">Usuario:</label>
+            <input type="text" class="form-control" id="username" v-model="username">
+          </div>
+          <div class="mb-3">
+            <label for="current-password" class="form-label fw-bold">Contraseña:</label>
+            <input type="password" class="form-control" id="current-password" v-model="password">
+          </div>
+          <button type="submit" class="btn btn-primary d-block m-auto px-5 mb-3">Ingresar</button>
+        </form>
+      </div>
+    <!-- Navbar -->
+      <div class="container mt-5" v-if="successfullLogin">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary rounded-3" >
+          <div class="container-fluid d-flex justify-content-between">
+            <div>
+              <img :src= 'getPhoto' alt="photo" class="rounded-5 me-3 mb-4"> 
+              <a class="navbar-brand" href="#">{{getFullName}}</a>
+            </div>
+            
+              <form class="mt-md-0 mt-3 d-flex align-items-center">
+                <div class="d-flex align-items-md-center flex-column flex-md-row">
+                  <label for="activity" class="form-label me-3">Actividad:</label>
+                  <select class="form-select"  v-model="activity" id="activity">
+                    <option  disabled>--Seleccione la actividad que desea realizar--</option>
+                    <option  value="adoptar">Adoptar</option>
+                    <option value="dar-en-adopcion">Dar en adopción</option>
+                    <option  value="administrar" v-if="getTypeUser">Adminitración</option>
+                  </select>
+                </div>
+                
+              </form>
+             <button
+                type="button"
+                class="btn btn-danger d-flex border border-1 mt-md-0 mt-3"
+                style="margin-left: 10px;"
+                @click="logout">
+                <i class="bi bi-box-arrow-left me-2 "></i>
+                Cerrar Sesion
+              </button>
+            
+          </div>
+        </nav>
+      </div>
+
+      <!-- Adopcion -->
+      <div class="container mt-5" v-if="activity==='adoptar' && successfullLogin">
+        <div class="row">
+
+          <div class="col-12  col-md-4 col-lg-3 mb-3" v-for="(pet,index) in (pets.filter(el=>el.state==='available'))" :key="index">
+            <div class="card  bg-info bg-opacity-75" >
+              <img :src="pet.photo" class="card-img-top w-50 img-fluid d-block mx-auto" :alt="index">
+              <div class="card-body">
+                <h5 class="card-title">{{pet.name}}</h5>
+                <p class="card-text">{{pet.description}}</p>
+              </div>
+              <ul class="list-group list-group-flush ">
+                <li class="list-group-item bg-info border-secondary"><span class="fw-bold">Especie: </span> {{pet.species}}</li>
+                <li class="list-group-item bg-info border-secondary"><span class="fw-bold">Raza: </span> {{pet.race}}</li>
+                <li class="list-group-item bg-info border-secondary"> <span class="fw-bold">Genero: </span>{{(pet.genre==='Male')?'Masculino':'Femenino'}}</li>
+                <li class="list-group-item bg-info border-secondary"><span class="fw-bold">Edad: </span>{{pet.age}}</li>
+              </ul>
+              <div class="card-body">
+                <a href="#" class="btn btn-primary d-block mx-auto" :id="pets.map(el => el.name).indexOf(pet.name)" @click="adopt">Adoptar</a>
+              </div>
+            </div> 
+          </div>
+          
+          
+        </div>
+      </div>
+      <!-- Administracion -->
+      <div class="container-md container-fluid" v-if="activity==='administrar' && successfullLogin">
+        <table class="table bg-white bg-opacity-75 mt-5">
+          <thead>
+            <tr>
+              <th scope="col" class="d-none d-sm-table-cell">Mascota</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Especie</th>
+              <th scope="col">Genero</th>
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(pet,index) in pets" :key="index">
+              <td class="w-25 d-none d-sm-table-cell"><img :src="pet.photo" alt="pet.name" class="w-25 img-fluid"></td>
+              <td >{{pet.name}}</td>
+              <td>{{pet.species}}</td>
+              <td>{{(pet.genre==='Male')?'Masculino':'Femenino'}}</td>
+              <td :class="(pet.state==='available')?'text-dark':'text-danger'">{{(pet.state==='available')?'Disponible':'Adoptado'}}</td>
+            </tr>
+          
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Dar en adopción -->
+      <div class="container mt-5" v-if="activity==='dar-en-adopcion' && successfullLogin">
+        <h1  class="bg-white">Dar en adopción en proceso</h1>
+      </div>
+  </section>
+  
+  
+  <script src="./main.js" type="module"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
