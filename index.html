@@ -72,7 +72,7 @@
         <div class="row">
 
           <div class="col-12  col-md-4 col-lg-3 mb-3" v-for="(pet,index) in (pets.filter(el=>el.state==='available'))" :key="index">
-            <div class="card  bg-info bg-opacity-75" >
+            <div class="card  bg-info bg-opacity-75 card-size" >
               <img :src="pet.photo" class="card-img-top w-50 img-fluid d-block mx-auto" :alt="index">
               <div class="card-body">
                 <h5 class="card-title">{{pet.name}}</h5>

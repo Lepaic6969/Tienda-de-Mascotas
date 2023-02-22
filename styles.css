@@ -24,6 +24,9 @@ body{
 .img-pet{
     cursor: pointer;
 }
+.card-size{
+    min-height: 525px;
+}
 @media(max-width:800px){
     .form-pet{
         width: 70% !important;
