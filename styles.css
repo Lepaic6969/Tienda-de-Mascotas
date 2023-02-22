@@ -21,6 +21,9 @@ body{
     background-color: rgb(230,197,140);
     opacity: 0.8;
 }
+.img-pet{
+    cursor: pointer;
+}
 @media(max-width:800px){
     .form-pet{
         width: 70% !important;

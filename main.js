@@ -18,6 +18,7 @@ createApp({
         race:'',
         age:'',
         description:'',
+        img:'',
         //Variables de validación del formulario de registro de mascotas.
         nameOk:true,
         genreOk:true,
@@ -26,7 +27,8 @@ createApp({
         ageOk:true,
         agePositiveOk:true,
         descriptionOk:true,
-
+        imgOk:true
+        
 
       }
     },
@@ -63,6 +65,7 @@ createApp({
         this.password=''
         this.username=''
         this.user=null
+        this.activity='adoptar'
         localStorage.removeItem("user")
       },
       adopt(e){
@@ -103,6 +106,16 @@ createApp({
           
           localStorage.setItem("users",JSON.stringify(this.data))
       },
+      closeModal(){
+        const myModalEl = document.getElementById('exampleModal');
+        const modal = bootstrap.Modal.getInstance(myModalEl)
+        modal.hide();
+      },
+      selectImage(e){
+        this.img=`${e.target.getAttribute("src")}`,
+        this.closeModal()
+
+      },
       resetValidation(){
         this.nameOk=true
         this.genreOk=true
@@ -111,6 +124,7 @@ createApp({
         this.ageOk=true
         this.agePositiveOk=true
         this.descriptionOk=true
+        this.imgOk=true
       },
       validateData(){
         let flag=true
@@ -143,13 +157,42 @@ createApp({
           this.descriptionOk=false
           flag=false
         }
+        if(this.img===''){
+          this.imgOk=false
+          flag=false
+        }
+        
         return flag
       },
-      registerPet(){
+      registerPet(e){
         let correctData=this.validateData()
         if(!correctData){
           return
         }
+        const newPet={
+          photo:this.img,
+          name:this.name,
+          genre:this.genre,
+          species:this.species,
+          race:this.race,
+          age:`${this.age} meses`,
+          description:this.description,
+          state:'available' //Estado por defecto
+        }
+        this.pets.push(newPet)
+        localStorage.setItem("pets",JSON.stringify(this.pets))
+
+        //TODO: Resetear formulario y dar un mensaje de registro exitoso.
+        e.target.reset()
+        console.log(e.target)
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Registro de mascota exitoso',
+          showConfirmButton: false,
+          timer: 1500
+        })
+
       }
     },
     computed:{
