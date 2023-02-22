@@ -120,8 +120,58 @@
 
       <!-- Dar en adopción -->
       <div class="container mt-5" v-if="activity==='dar-en-adopcion' && successfullLogin">
-        <h1  class="bg-white">Dar en adopción en proceso</h1>
+        <form class=" p-5 form-pet mb-5" @submit.prevent="registerPet">
+          <div class="mb-5">
+            <img src="./assets/img/casa-de-mascotas.png" alt="login-icon" class="img-fluid w-25 mx-auto d-block ">
+            <h2 class="text-center">Dar en adopcion</h2>
+          </div>
+          <div class="mb-3">
+            <label for="name" class="form-label fw-bold">Nombre de la mascota:</label>
+            <input type="text" class="form-control" id="name" v-model="name" >
+            <div  class="form-text fw-bold text-danger" v-if="!nameOk">Por favor ingrese el nombre de su mascota.</div>
+          </div>
+          <div class="mb-3">
+            <label for="species" class="form-label fw-bold">Seleccione la especie:</label>
+            <select class="form-select" id="species" v-model="species">
+              <option disabled>--Seleccione la especie de su mascota--</option>
+              <option value="perro">Perro</option>
+              <option value="gato">Gato</option>
+            </select>
+            <div  class="form-text fw-bold text-danger" v-if="!speciesOk">Por favor seleccione la especie.</div>
+          </div>
+          <div class="mb-3">
+            <label for="genre" class="form-label fw-bold">Seleccione su género:</label>
+            <select class="form-select" id="genre" v-model="genre">
+              <option disabled>--Seleccione el género de su mascota--</option>
+              <option value="Male">Masculino</option>
+              <option value="Female">Femenino</option>
+            </select>
+            <div  class="form-text fw-bold text-danger" v-if="!genreOk">Por favor seleccione el género.</div>
+          </div>
+          <div class="mb-3">
+            <label for="race" class="form-label fw-bold">Raza:</label>
+            <input type="text" class="form-control" id="race" v-model="race" >
+            <div  class="form-text fw-bold text-danger" v-if="!raceOk">Por ingrese la raza.</div>
+          </div>
+          <div class="mb-3">
+            <label for="age" class="form-label fw-bold">Edad en meses:</label>
+            <input type="number" class="form-control" id="age" v-model="age">
+            <div  class="form-text fw-bold text-danger" v-if="!ageOk">Por favor ingrese la edad.</div>
+            <div  class="form-text fw-bold text-danger" v-if="!agePositiveOk">Recuerde que la edad de su mascota debe ingresarse en meses y esta cantidad es positiva.</div>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label fw-bold">Deje la descripción de la mascota:</label>
+            <textarea class="form-control" rows="5" id="description" v-model="description"></textarea>
+            <div  class="form-text fw-bold text-danger" v-if="!descriptionOk">Por favor complete este campo.</div>
+          </div>
+          
+          
+          
+          <button type="submit" class="btn btn-primary">Registrar Mascota</button>
+        </form>
       </div>
+
+
   </section>
   
   

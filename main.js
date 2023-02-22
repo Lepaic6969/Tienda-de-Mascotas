@@ -8,9 +8,26 @@ createApp({
         username:'',
         successfullLogin:false,
         data:[],
-        user:null, //Si genera errores dejarlo con las llaves
+        user:null, 
         activity:'adoptar',
         pets:[],
+        //Variables de formulario de dar en adopción.
+        name:'',
+        genre:'',
+        species: '',
+        race:'',
+        age:'',
+        description:'',
+        //Variables de validación del formulario de registro de mascotas.
+        nameOk:true,
+        genreOk:true,
+        speciesOk:true,
+        raceOk:true,
+        ageOk:true,
+        agePositiveOk:true,
+        descriptionOk:true,
+
+
       }
     },
     methods:{
@@ -58,7 +75,6 @@ createApp({
         }).then((result) => {
           /* Read more about isConfirmed, isDenied below */
           if (result.isConfirmed) {
-            //TODO: actualizar el estado de la mascota que se adoptó.
             this.pets[e.target.id].state='adopted'
             localStorage.setItem("pets",JSON.stringify(this.pets))
             Swal.fire(`Felicidades, ahora ${this.pets[e.target.id].name} es tu mascota!`, '', 'success')
@@ -87,6 +103,54 @@ createApp({
           
           localStorage.setItem("users",JSON.stringify(this.data))
       },
+      resetValidation(){
+        this.nameOk=true
+        this.genreOk=true
+        this.speciesOk=true
+        this.raceOk=true
+        this.ageOk=true
+        this.agePositiveOk=true
+        this.descriptionOk=true
+      },
+      validateData(){
+        let flag=true
+        this.resetValidation()
+        if(this.name===''){
+          this.nameOk=false
+          flag=false
+        }
+        if(this.genre===''){
+          this.genreOk=false
+          flag=false
+        }
+        if(this.species===''){
+          this.speciesOk=false
+          flag=false
+        }
+        if(this.race===''){
+          this.raceOk=false
+          flag=false
+        }
+        if(this.age===''){
+          this.ageOk=false
+          flag=false
+        }
+        if(this.age!=='' && this.age<=0){
+          this.agePositiveOk=false
+          flag=false
+        }
+        if(this.description===''){
+          this.descriptionOk=false
+          flag=false
+        }
+        return flag
+      },
+      registerPet(){
+        let correctData=this.validateData()
+        if(!correctData){
+          return
+        }
+      }
     },
     computed:{
       getFullName(){

@@ -13,9 +13,29 @@ body{
 .w-50-responsive{
     width: 50% !important;
 }
-
+.form-pet{
+    width: 60% !important;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+    background-color: rgb(230,197,140);
+    opacity: 0.8;
+}
+@media(max-width:800px){
+    .form-pet{
+        width: 70% !important;
+    }
+}
 @media(max-width:700px){
     .w-50-responsive{
         width: 90% !important;
+    }
+    .form-pet{
+        width: 80% !important;
+    }
+}
+@media(max-width:600px){
+    .form-pet{
+        width: 100% !important;
     }
 }
