@@ -126,6 +126,15 @@ createApp({
         this.descriptionOk=true
         this.imgOk=true
       },
+      resetForm(){
+        this.name=''
+        this.genre=''
+        this.species=''
+        this.race=''
+        this.age=''
+        this.description=''
+        this.img=''
+      },
       validateData(){
         let flag=true
         this.resetValidation()
@@ -164,7 +173,7 @@ createApp({
         
         return flag
       },
-      registerPet(e){
+      registerPet(){
         let correctData=this.validateData()
         if(!correctData){
           return
@@ -182,9 +191,8 @@ createApp({
         this.pets.push(newPet)
         localStorage.setItem("pets",JSON.stringify(this.pets))
 
-        //TODO: Resetear formulario y dar un mensaje de registro exitoso.
-        e.target.reset()
-        console.log(e.target)
+        //TODO: Hay que encargarnos de resetear bien el formulario.
+        this.resetForm()
         Swal.fire({
           position: 'center',
           icon: 'success',
